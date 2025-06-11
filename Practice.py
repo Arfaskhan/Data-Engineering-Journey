@@ -1,5 +1,5 @@
 import sys
-
+from functools import reduce, partial
 from Encrypt_password_ import get_decrypted_password
 
 ## Discount By price
