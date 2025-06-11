@@ -1264,3 +1264,302 @@ if an == 1:
 
     gmail = build_mail('gmail.com')
     gmail('Arfas khan')
+
+# pass the function as an arguments (Higher order function)
+from functools import reduce
+
+an = 0
+if an == 1:
+    def sugar(kgs ,item = 'Sugar'):
+        print(f"Price of {kgs}kgs {item} : {kgs* 70}")
+
+    def Wheat_flour(kgs, item='Wheat Flour'):
+        print(f"Price of {kgs}kgs {item} : {kgs * 50}")
+
+    def water_bottle(litre ,item = 'Water Bottle'):
+        print(f"Price of {litre}litre {item} : {litre* 30}")
+
+    def Coconut_oil(litre ,item = 'Coconut Oil'):
+        print(f"Price of {litre}litre {item} : {litre* 230}")
+
+    def generate_bill(quantity,item_func):
+        return item_func(quantity)
+
+    items_function = [Coconut_oil,water_bottle,sugar,Wheat_flour]
+    quanty = [5,2,1/2,1.5]
+    for i,q in zip(items_function,quanty):
+        generate_bill(q,i)
+
+
+# it returns function as an output (Higher order function)
+an = 0
+if an == 1:
+    def item_(item):
+        def quantity(qntyty,quantity_name,price):
+            print(f"Price of {qntyty}{quantity_name} of {item} : {qntyty*price}")
+        return quantity
+
+    sugar = item_(item = 'sugar')
+    sugar(5,'Kgs',70)
+
+    Coconut_oil = item_(item = 'Coconut oil')
+    Coconut_oil(4,'Ltr',230)
+
+    Wheat_flour = item_(item='Wheat Flour')
+    Wheat_flour(4, 'Kgs', 50)
+
+    water_bottle = item_(item='water Bottle')
+    water_bottle(4, 'Ltr', 30)
+
+
+
+# Pure and impure functions
+ # pure functionn
+ # username = 'Arfas khan' is globally assigned...So every function can use this variable...
+ # Pure function is never affect the globally assigned variable
+an = 0
+if an == 1:
+    username = 'Arfas Khan'
+
+    def New_user():
+         username = 'Vijay'
+         print(f"Im a new user {username}")
+
+    def old_user():
+        print(f"Im a old user {username}")
+
+    New_user() # Im a new user Vijay
+    old_user() # Im a old user Arfas Khan
+
+# Impure Function
+an = 0
+if an == 1:
+    username = 'Arfas Khan'
+
+    def New_user():
+         global username  # if you change anything in a same variable, it change the global variable values also...
+         username = 'Vijay'
+         print(f"Im a new user {username}")
+
+    def old_user():
+        print(f"Im a old user {username}")
+
+    New_user() # Im a new user Vijay
+    old_user() # Im a old user Vijay
+
+# lambda function
+an = 0
+if an == 1:
+    ## lambda
+    add = lambda a,b :a+b
+    print(add(5,2))
+
+    sqr = lambda x: x**2
+    print(sqr(10))
+
+    # Map
+    nmbr = [ 5,10,33,554,367]
+    add = list(map(lambda a : a+100 , nmbr))  ## map can take one by one vlaues in a list...Here a represent each values by iteration
+    print(add)
+
+    name = ['  Arfas khan  ', '  viJay moN','Gold Michael  ']
+    rename = list(map(lambda a: a.strip().title().replace(' ','_'), name))
+    print(rename)
+
+    # Filter
+    nmbr = [5, 10, 33, 554, 367]
+    grtr_than_10 = list(filter(lambda a:a>10,nmbr))
+    print(grtr_than_10)
+
+    nmbr = [5, 10, 33, 554, 367]
+    even_nmbr = list(filter(lambda a: a%2==0, nmbr))
+    print(even_nmbr)
+
+    name = ['  Arfas khan  ', '  viJay moN', 'Gold Michael  ','Alwin']
+    rename = list(filter(lambda a: a.strip().capitalize().startswith('A'), name))
+    print(rename)
+
+    # Reduce
+    nmbr = [5, 10, 33, 554, 367]
+    add = reduce(lambda a,b: a+b, nmbr)
+    print(add)
+
+    nmbr = [5, 10, 33, 554, 367]
+    largest_nmbr = reduce(lambda a, b: a if a>b else b, nmbr)
+    print(largest_nmbr)
+
+    # Filter and reduce
+    nmbr = [5, 10, 33, 554, 367]
+    grtr_than_10 = list(filter(lambda a: a > 10, nmbr))
+    add = reduce(lambda a,b : a+b,grtr_than_10)
+    print(add)
+
+# Lambda
+an = 0
+if an == 1:
+
+    lmb_data1  = lambda a,b,c,d : a*b*(c+d)
+    print(lmb_data1(3,7,5,2))
+
+    lmb_data2 = lambda a, b, c, d: a * d * (b + d) +(a /c)
+    print(lmb_data2(3, 7, 5, 2))
+
+# Map
+an = 0
+if an == 1:
+    names = ['Divya','Sudha','Samiga','Suhaina']
+    names_upper = list(map(lambda nms: nms.upper().strip() , names))
+    print(names_upper)
+
+    names = ['Divya', 'Sudha', 'Samiga', 'Suhaina']
+    names_upper = list(map(lambda nms: nms.upper().strip(), names[::-1]))
+    print(names_upper)
+
+    names = ['   Divya Parvathi  ', ' Jeya Sudha  ', '  Samiga ', '  Suhaina  ']
+    names_upper = list(map(lambda nms: nms.title().strip().replace(' ',''), names))
+    print(names_upper)
+
+    names = ['   Divya Parvathi  ', ' Jeya Sudha  ', '  Samiga ', '  Suhaina  ']
+    names_upper = list(map(lambda nms: nms.title().strip().replace(' ',''), names))
+    print(names_upper)
+
+# Filter
+an = 0
+if an == 1:
+    names = ['Divya','Sudha','Samiga','Suhaina']
+    names_upper = list(filter(lambda nms: nms.upper().strip().startswith('S'), names))
+    print(names_upper)
+
+    names = ['Divya', 'Sudha', 'Samiga', 'Suhaina']
+    names_upper = list(map(lambda nms: nms.lower().strip()[::-1], names[::-1]))
+    print(names_upper)
+
+    nmbr = [7336387,92829,3635363,484774,7736727]
+    grtst_nmbrs = list(filter(lambda nmb : nmb > round(nmbr[4]/3) , nmbr))
+    print(grtst_nmbrs)
+
+# Reduce
+an = 0
+if an == 1:
+    nmbr = [63798339,484733,7478933,836373]
+    nmbr_ = reduce(lambda a,b : a if a>b else b ,nmbr)
+    print(nmbr_)
+
+
+# closure function
+# inner function  can take all argument from outer function ....
+an = 0
+if an == 1:
+    def outer(username,domain):
+        def inner():
+            print(f"{username}@{domain}.com")
+        return inner()
+
+    mail_ = outer('arfaskhan','gmail')
+
+# Partially Function
+an = 0
+if an == 1:
+    def calculate_tax(price,tax_rate):
+        taxed_price = price * tax_rate
+        return print(f"{price + taxed_price}")
+
+    tax_ = partial(calculate_tax,tax_rate = 0.18)
+    tax_(2000)
+
+an = 0
+if an == 1:
+    def calculate_expression(a,b):
+        expres = a*b+(b**2)*(a^b) - (b*a)
+        return print(expres)
+
+    calc_ = partial(calculate_expression,b = 5)
+    calc_(8)
+
+# Composed Function
+# It is when the output of function is given as the inpput of other function..
+an = 0
+if an == 1:
+    def add(x,y):
+        return x+y
+
+    def multiply(x):
+        return x*x
+
+    print(multiply(add(5,10)))
+
+# Call ack function....A callback is a function you give to another function to be "called back" later...
+# greet is a callback function — passed to process_name and then process_name receives the function as an argument (callback)
+# It then calls that function with the name "Arfas"
+an = 0
+if an == 1:
+    def greet(name):
+        return f"Hello, {name}!"
+
+
+    def process_name(callback):
+        name = "Arfas"
+        return callback(name)
+
+
+    print(process_name(greet))
+
+# Recursive function
+# It is a function that calls itself...
+an = 0
+if an == 1:
+    def factorial(n):
+        if n == 1:
+            return 1
+        return n * (factorial(n-1))
+
+    print(factorial(10))
+
+an = 0
+if an == 1:
+    def countdown(n):
+        if n == 0:
+            print(f"The title winner is Arfas Khan")
+            return
+        print(n)
+        countdown(n-1)
+    print(countdown(10))
+
+# Generator function
+# A generator function is a special type of function that uses the yield keyword to return value one by one,instead of returning everything at once..
+an = 0
+if an == 1:
+    def numbers(n):
+        for i in range(n):
+            yield  i
+
+    for num in numbers(10):
+        print(num)
+
+# Test case (Run test_code.py to test this section codes
+an = 0
+if an == 1:
+    def amnt_prdct(quantity):
+        amount = 200 * quantity
+        return amount
+
+an =0
+if an == 1:
+    def sugar(kgs):
+        return kgs * 70
+
+
+    def Wheat_flour(kgs):
+        return kgs * 50
+
+
+    def water_bottle(litre):
+        return litre * 30
+
+
+    def Coconut_oil(litre):
+        return litre * 230
+
+
+    def generate_bill(quantity, item_func):
+        return item_func(quantity)
