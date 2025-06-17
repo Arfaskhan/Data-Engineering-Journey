@@ -1,0 +1,142 @@
+SCHEDULING :
+
+    1. CRON
+    2.AIRFLOW
+    3. WHILE
+
+CRON SCHEDULING :
+
+    *  *  *  *  *  command
+    |  |  |  |  |
+    |  |  |  |  └── Day of the week (0–6, Sunday=0)
+    |  |  |  └───── Month (1–12)
+    |  |  └──────── Day of the month (1–31)
+    |  └─────────── Hour (0–23)
+    └────────────── Minute (0–59)
+
+    | Cron Expression | Meaning                            |
+    | --------------- | ---------------------------------- |
+    | `* * * * *`     | Every minute                       |
+    | `*/5 * * * *`   | Every 5 minutes                    |
+    | `0 9 * * *`     | Every day at 9:00 AM               |
+    | `0 22 * * 1-5`  | At 10:00 PM, Monday to Friday      |
+    | `0 0 1 * *`     | On the 1st of every month at 12 AM |
+
+    Here 5 * are the cron formula...
+
+    Ex, I need to run Print_time.py every 2 hours from Monday to Friday, but only during even months.
+
+    0 */2 * 2,4,6,8,10,12 1-5 /usr/bin/python3 /root/Print_time.py >> log_.log &
+
+    0 means 0 minutes(2:00 00 is the minutes)
+    */2 means Every 2 hours..if every 4 hours */4...* means every..if we hve a condition,we apply inthis..
+    2,4,6,8,10,12 means every even month
+    1-5 means monday to friday.....because sunday represent 0....
+
+    /usr/bin/python3 ..It is the path for your python interpreter ..if you dont knoe the path..
+    write which python3 in ubuntu...it shows the path ...
+
+    /root/Practice.py ...This is the path for your file...
+
+    >> log_.log & ...This will write logs in log_ file....you can put any name instead of >> log_
+
+    before that write , crontab -e
+
+    It will open the cron tab,then write
+
+        */2 * * * /usr/bin/python3 /root/Print_time.py >> log_.log &
+        it satrts to running
+
+    then cntrl+x and then y for save and then enter....it return the ubuntu tab....
+
+    the code is in Print_time.py in scheduling section...
+
+    check the files using ls -lstr after 2 to 3 minutes,because of interval what i give in cron formula
+
+    In a list, Write_log.txt will appear, then
+
+    cat Write_log.txt
+
+    if you want contiously showing updated datetime...
+
+    tail -f Write_log.txt
+
+    ps -aux , show thw running files...
+
+    So,if you want stop the running file....
+
+    kill -9 12345  .....12345 means id in ps -aux shows list....
+
+    pwd --> show the directary
+
+
+WHILE SCHEDULING9NOT RECOMMENDED) :
+
+    Code in Print_time.py ....
+
+    if we want to write a code in a ubuntu directory...
+
+    vi while_example.py   # it will create a file in ubuntu directory..copy or write a code in that tab...
+
+    if you wnat to wxit in vi tab use :q! and if paste or write a code in taht tab...use :wq...it will save and exit ....
+
+    This applied for cron also..because this commands for linux ubuntu....
+
+    after write or save the code..
+
+    python3 while_example.py   --> to run the code
+
+    same things, use cat Write_log.txt ....It shows saved datetime ...
+
+    tail -f Write_log.txt , it shows continuously upodated datetime
+
+
+NOHUP :
+    nohup (short for no hang up) is used to run a command in the background and keep it running even if:
+
+        You log out
+
+        The terminal is closed
+
+        Or the process would normally be interrupted
+
+    It’s mostly used for long-running background tasks.
+
+    | Feature               | `cron`                       | `nohup`                                 |
+    | --------------------- | ---------------------------- | --------------------------------------- |
+    | Purpose               | Run tasks at scheduled times | Run tasks continuously or in background |
+    | Auto-scheduling       | ✅ Yes                        | ❌ No — manual start                     |
+    | Repeats automatically | ✅ Yes                        | ❌ No — runs until stopped               |
+    | Use case              | Daily/weekly jobs            | Forever-running scripts                 |
+
+    nohup python3 while_example.py >> log_1.txt &
+
+    and enter 2 times
+
+    only it will stop the process....kill -9 id ....i use this ame in cron and while...but in cron and while.....if system is logout or closed the terminal..it will stop...
+
+    But nohup runs in background..only this command helps to kill...
+
+AIRFLOW :
+
+
+
+    username admin \
+>     --firstname Arfas \
+>     --lastname Khan \
+>     --role Admin \
+>     --email arfaskhan27@gmail.com\
+>     --password root
+
+    locolhost:8085
+
+     source ~/airflow_project/airflow_env_py310/bin/activate
+    airflow webserver --port 8085
+    airflow scheduler   # write in new ubuntu
+
+
+
+
+
+
+

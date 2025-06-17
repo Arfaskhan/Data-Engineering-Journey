@@ -1,0 +1,17 @@
+ product_id,customer_id,product,payment_status
+ 101,1,Laptop,Paid
+ 102,3,Headphones,Pending
+ 103,5,Smartwatch,Paid
+ 104,2,Keyboard,Paid
+ 105,4,Phone Case,Pending
+ 106,6,Tablet,Paid
+ 107,7,Monitor,Pending
+ 108,8,Bluetooth Mouse,Paid
+ 109,9,SSD Drive,Pending
+ 110,10,Power Bank,Paid
+ 111,4,Phone Case,Pending
+ 112,5,Tablet,Paid
+ 113,5,Monitor,Pending
+ 114,7,Bluetooth Mouse,Paid
+ 115,2,SSD Drive,Pending
+ 116,2,Power Bank,Paid

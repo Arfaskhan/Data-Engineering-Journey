@@ -1,0 +1,4 @@
+2025-06-16 23:59:34,864 - INFO - Division of 10 by 4
+2025-06-16 23:59:34,864 - DEBUG - Result is 2.5
+2025-06-16 23:59:34,865 - INFO - Division of 5 by 0
+2025-06-16 23:59:34,865 - ERROR - Enter valid number
