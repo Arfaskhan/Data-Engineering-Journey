@@ -1563,3 +1563,307 @@ if an == 1:
 
     def generate_bill(quantity, item_func):
         return item_func(quantity)
+
+# Scheduling
+
+# Cron ## its a tool
+## Commands and explaination in Scheduling.txt
+an = 0
+if an == 1:
+    with open('Write_log.txt','a') as file:
+        file.write(f"{datetime.now()}\n")
+
+# Scheduluing using While
+an = 0
+if an == 1:
+    def time_print():
+        with open('Time_print.txt','a') as file:
+            file.write(f"Run script at {datetime.now()}\n")
+
+    while True:
+        time_print()
+        time.sleep(10)
+
+# AIRFLOW
+
+# Creating and Insearting data
+an = 0
+if an == 1:
+    import pymysql
+
+    connection = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='root',
+        database='Test_ETL',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    try:
+        with connection.cursor() as cursor:
+            Create_query = """
+            CREATE TABLE IF NOT EXISTS students (
+                Id SERIAL PRIMARY KEY,
+                First_name VARCHAR(50),
+                Last_name VARCHAR(50),
+                Grade VARCHAR(50),
+                Section VARCHAR(10),
+                Mobile_number VARCHAR(15),
+                Guardian VARCHAR(50)
+            );
+            """
+            cursor.execute(Create_query)
+
+            insert_query = "INSERT INTO students (First_name,Last_name,Grade,Section,Mobile_number,Guardian) VALUES(%s,%s,%s,%s,%s,%s);"
+            values = [('Aarav', 'Sharma', '10', 'A', '9123456701', 'Rakesh Sharma'),
+                      ('Vivaan', 'Verma', '9', 'B', '9123456702', 'Nitin Verma'),
+                      ('Aditya', 'Gupta', '8', 'C', '9123456703', 'Suresh Gupta'),
+                      ('Krishna', 'Mishra', '11', 'D', '9123456704', 'Arvind Mishra'),
+                      ('Vihaan', 'Patel', '10', 'A', '9123456705', 'Ketan Patel'),
+                      ('Ishaan', 'Yadav', '12', 'B', '9123456706', 'Sanjay Yadav'),
+                      ('Shaurya', 'Joshi', '9', 'C', '9123456707', 'Harish Joshi'),
+                      ('Atharv', 'Reddy', '8', 'D', '9123456708', 'Mohit Reddy'),
+                      ('Aryan', 'Khan', '7', 'A', '9123456709', 'Rajiv Khan'),
+                      ('Kabir', 'Singh', '11', 'B', '9123456710', 'Anil Singh')]
+
+            cursor.executemany(insert_query, values)
+            connection.commit()
+
+    finally:
+        connection.close()
+
+# ETL_Script....etl_scripts.py
+an = 0
+if an == 1:
+    import pymysql
+    from datetime import datetime
+    import pandas as pd
+    def database_connectvity():
+        connection_configure = {
+            'host': 'localhost',
+            'user' : 'root',
+            'password' : 'root',
+            'database' : 'Test_ETL'
+        }
+        databse_cnctn = pymysql.connect(**connection_configure)
+        query = 'SELECT * FROM students'
+        df = pd.read_sql(query,databse_cnctn)
+        databse_cnctn.close()
+        return df
+    def transform_data(df):
+        transformed_data = df[df['Grade'] == 10]
+        return transformed_data
+
+    def write_output_data(transformed_data):
+        outdir_ = '/root/extract'
+        file_name = f"Output_data_{datetime.now().strftime('%Y%m%d%H%M%S')}.csv"
+        file_path = os.path.join(outdir_,file_name)
+        transformed_data.to_csv(file_path)
+        print(f"Data Written at {file_path}")
+
+    def Call_ETL():
+
+        df = database_connectvity()
+        trans_data = transform_data(df)
+        write_output_data(trans_data)
+
+    if __name__ == '__main__':
+        Call_ETL()
+
+## ETL_DAG.py
+an =0
+if an == 1:
+    from airflow import DAG
+    from airflow.operators.bash import BashOperator
+    from datetime import datetime,timedelta
+
+    default_args = {
+        'owner':'airflow',
+        'depends_on_past':False,
+        'email_on_failure':False,
+        'email_on_retry':False,
+        'retries':1,
+        'retry_delay' : timedelta(minutes=1)
+    }
+    dag = DAG(
+        'mysql_py_etl_dag',
+        default_args = default_args,
+        description = 'A Sample ETL Dag',
+        schedule_interval = timedelta(minutes=5),
+        start_date = datetime(2025,6,15),
+        catchup = False
+
+    )
+
+    run_etl = BashOperator(
+        task_id = 'run_etl',
+        bash_command = 'bash /root/wrapper_script.sh ', # Should space after .sh
+        dag = dag,
+    )
+
+## wrapper_script
+
+    #python3 /root/etl_scripts.py
+
+# Streamlit
+# Streamlit is a free, open-source Python library that lets you create interactive web applications for data science and machine learning projects quickly and easily, using just Python code—no need to know HTML, CSS, or JavaScript.
+import streamlit as st
+an = 0
+if an == 1:
+
+
+    st.title('My First Streamlit App')
+    st.header('Welcome to the Demo App')
+
+    st.write('This is a simple app built with streatmlit')
+
+    name = st.text_input('Whats your name :')
+    if name :
+        st.success(f"Hello {name}")
+
+    age = st.slider('Select your age :',1,100,25)
+
+    st.write(f"Your selected age : {age}")
+
+# Simple calculator
+an = 0
+if an == 1:
+    st.title('Simple Calculator')
+
+    num1 = st.number_input('Enter your first number : ')
+    num2 = st.number_input('Enter your second number : ')
+    operations = st.selectbox("Choose Operation",["Add","Substract",'Multiply',"Division"])
+
+    if st.button('Calculate'):
+        if operations == 'Add':
+            result = num1 + num2
+        elif operations == 'Substract':
+            result = num1 - num2
+        elif operations == 'Multiply':
+            result = num1 * num2
+        elif operations == 'Division':
+            try :
+                result = num1 / num2
+            except:
+                result = 'Division by zero is not possible'
+        st.success(f"Result : {result}")
+
+## Chatbots
+## Resume Analyser
+
+# Matplotlib
+an = 0
+if an == 1:
+    import pandas as pd
+    import matplotlib
+    import matplotlib.pyplot as plt
+
+    matplotlib.use('TkAgg')
+
+    x = [1,2,3,4]
+    y = [7,9,4,5]
+
+    plt.plot(x,y,color = 'red')
+    plt.xlabel('Sample x axis')
+    plt.ylabel('Sample y axis')
+    plt.grid()
+    plt.show()
+
+    x = [1, 2, 3, 4]
+    y = [7, 9, 4, 5]
+
+    plt.scatter(x, y, color='red')
+    plt.xlabel('Sample x axis')
+    plt.ylabel('Sample y axis')
+    plt.grid()
+    plt.show()
+
+    x = [1, 2, 3, 4]
+    y = [7, 9, 4, 5]
+
+    plt.bar(x, y, color='red')
+    plt.xlabel('Sample x axis')
+    plt.ylabel('Sample y axis')
+    plt.grid()
+    plt.show()
+
+    ##  read csv data
+    data = pd.read_csv('data_plot.csv')
+    df_x = data['name']
+    df_y = data['marks']
+    x = []
+    y = []
+    for i in range(len(df_x)):
+        x.append(df_x[i])
+        y.append((df_y[i]))
+    plt.bar(x,y)
+    plt.title('10th Social Mark')
+    plt.xlabel('Students')
+    plt.ylabel('Mark')
+    plt.show()
+
+# logging
+#Logging in Python is a way to record messages that describe what your program is doing while it runs — like printing messages, but more powerful and professional.
+
+# Instead of using print(), you use logging to:
+# Track errors
+# Debug problems
+# Keep a history of events (in files or console)
+
+an = 0
+if an == 1:
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        filename='app.log',
+        filemode='w'
+    )
+    def divide(a,b):
+        logging.info(f"Division of {a} by {b}")
+        try :
+            result = a/b
+            logging.debug(f"Result is {result}")
+            return result
+        except ZeroDivisionError:
+            logging.error(f"Enter valid number")
+            return None
+
+    divide(10,4)
+    divide(5,0)
+
+# Pandas
+# Pandas is a popular Python library used for data analysis and data manipulation. It makes it easy to clean, filter, explore, and analyze structured data (like Excel or CSV files).
+# A DataFrame is a table-like structure (rows and columns) in Pandas, similar to an Excel spreadsheet or a SQL table.
+# It is the main data structure used in Pandas.
+
+an = 0
+if an == 1:
+    df = pd.read_csv('data_plot.csv')
+    mark = df['marks']
+    print(mark)
+    mark.to_csv('marks.csv')
+
+an = 0
+if an == 1:
+    df = pd.read_csv('product.csv')
+    df['total'] = df['fare'] * df['quantity']
+    grouped = df.groupby('product')['total'].sum().reset_index()
+    sort_df = grouped.sort_values(by='total',ascending = False)
+    print(sort_df)
+
+# Inner Join
+an = 0
+if an == 1:
+    customer = pd.read_csv('Customer.csv')
+    orders = pd.read_csv('Products_status.csv')
+    merge_ = pd.merge(customer, orders, left_on='id', right_on='customer_id', how='inner')
+    filter_ = merge_[merge_['payment_status']=='Paid']
+    print(filter_)
+
+# WIthout header
+an = 0
+if an == 1:
+    data_ = pd.read_csv('Without_header.csv',header =None,names=['Id','Name','Jersey_no'],index_col=0) # index_col is false avoid ...pandas created rows 0,1,2,3,4...if index = false..it avoids index forms in column
+    data_.to_csv('With_header.csv')
+
